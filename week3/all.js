@@ -51,11 +51,11 @@ new Vue({
       if (Object.keys(this.editProduct).length <= 0){return $('#productModal').modal('hide');};
       const index = this.products
         .findIndex(item => item.id === this.editProduct.id);//判別暫存物件與原始物件的id是否相同，相同就回傳索引，不相同則回傳-1
-      if(index !== -1){
+      if(index !== -1){//編輯資料
         //this.$set(target(目標),key欄位(物件屬性、陣列索引),value(值));
         //強制加入雙向綁定
         this.$set(this.products, index, Object.assign({},this.editProduct));
-      }else{
+      }else{//新增資料
         const id = new Date().getTime();
         this.editProduct.id = id;
         this.products.push(this.editProduct);
