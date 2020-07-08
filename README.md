@@ -1,7 +1,5 @@
 # JavaScript 作品實戰班
 
-[主線任務官方範例連結](https://hexschool.github.io/js-training-task/)
+[第二周作業](https://cinglin570.github.io/hexschool-jsClass/week2/index)
 
-## API
-
-[心理測驗 API](https://raw.githubusercontent.com/hexschool/js-training-task/master/api/BigFive.json)
+[第三周作業](https://cinglin570.github.io/hexschool-jsClass/week3/index)
