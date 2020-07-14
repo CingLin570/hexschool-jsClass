@@ -32,6 +32,12 @@ export default{
         },
     },
     methods: {
+        updatedata(){
+            const vm =this;
+            vm.tempProduct ={
+                imageUrl: [],
+            };
+        },
         //使用 refs 觸發getProduct方法並將暫存的id帶入
         getProduct(id) {
             //使用後台更新商品資訊api
@@ -46,6 +52,7 @@ export default{
         },
         // 上傳產品資料
         updateProduct() {
+            const vm =this;
             // 新增商品
             let api = `https://course-ec-api.hexschool.io/api/${this.user.uuid}/admin/ec/product`;
             let httpMethod = 'post';
@@ -61,6 +68,9 @@ export default{
             axios[httpMethod](api, this.tempProduct).then(() => {
                 $('#productModal').modal('hide');
                 this.$emit('update');//傳事件getProducts到外層，執行更新畫面
+                vm.tempProduct ={
+                    imageUrl: [],
+                };
             }).catch((error) => {
                 console.log(error)
             });

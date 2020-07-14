@@ -64,6 +64,7 @@ new Vue({
                         imageUrl: [],
                     };
                     this.isNew = true;
+                    this.$refs.productModel.updatedata();
                     document.querySelector('#exampleModalLabel > span').innerHTML='新增產品';
                     $('#productModal').modal('show');
                     break;
