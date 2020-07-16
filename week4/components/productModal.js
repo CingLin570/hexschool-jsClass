@@ -39,10 +39,13 @@ export default{
             };
         },
         //使用 refs 觸發getProduct方法並將暫存的id帶入
+        //取得單一詳細產品資料
+        //id 主要是傳入產品的 ID
         getProduct(id) {
             //使用後台更新商品資訊api
             const api = `https://course-ec-api.hexschool.io/api/${this.user.uuid}/admin/ec/product/${id}`;
             axios.get(api).then((res) => {
+                 // 確保資料已經回寫後在打開 Modal
                 $('#productModal').modal('show');
                 console.log(res);
                 this.tempProduct = res.data.data;//把遠端資料與暫存資料同步，把沒有的顯示欄位的資料加入暫存
@@ -51,6 +54,8 @@ export default{
             });
         },
         // 上傳產品資料
+        //點擊Model的確認按鈕觸發，透過 this.isNew 的狀態將會切換新增產品或編輯產品。
+        //附註新增為「post」編輯則是「patch」，patch 必須傳入產品 ID
         updateProduct() {
             const vm =this;
             // 新增商品
@@ -67,7 +72,7 @@ export default{
             //判別後帶入post或是patch上傳產品資料，再使用$emit帶入外層方法getProducts更新畫面
             axios[httpMethod](api, this.tempProduct).then(() => {
                 $('#productModal').modal('hide');
-                this.$emit('update');//傳事件getProducts到外層，執行更新畫面
+                this.$emit('update');//傳事件getProducts到外層，執行更新畫面重新取得全部產品資料
                 vm.tempProduct ={
                     imageUrl: [],
                 };
@@ -81,13 +86,13 @@ export default{
             const formData = new FormData();
             formData.append('file', uploadedFile);
             const url = `https://course-ec-api.hexschool.io/api/${this.user.uuid}/admin/storage`;
-            this.status.fileUploading = true;
+            this.status.fileUploading = true;//上傳時loading的icon開啟
             axios.post(url, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
             }).then((response) => {
-                this.status.fileUploading = false;
+                this.status.fileUploading = false;//上傳完成時loading的icon關閉
                 if (response.status === 200) {
                     this.tempProduct.imageUrl.push(response.data.data.path);
                 }

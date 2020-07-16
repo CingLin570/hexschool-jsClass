@@ -130,7 +130,9 @@
                   <div class="form-group">
                     <label for="customFile">
                       或 上傳圖片
-                      <i v-if="status.fileUploading" class="fas fa-spinner fa-spin"></i>
+                      <div class="spinner-border" role="status" v-if="status.fileUploading">
+                        <span class="sr-only">Loading...</span>
+                      </div>
                     </label>
                     <input id="customFile" ref="file" type="file" class="form-control" @change="uploadFile">
                   </div>
