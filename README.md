@@ -3,6 +3,7 @@
 [第二周作業](https://cinglin570.github.io/hexschool-jsClass/week2/index)
 
 [第三周作業](https://cinglin570.github.io/hexschool-jsClass/week3/index)
+
 重點整理
 this.$set (target, key, value); 是為了強制觸發 setter 與 getter。
 
