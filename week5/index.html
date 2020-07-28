@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css' />
+  <link href="https://cdn.jsdelivr.net/npm/vue-loading-overlay@3/dist/vue-loading.css" rel="stylesheet">
+  <link rel="stylesheet" href="./css/all.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/js/all.min.js">
+</head>
+
+<body>
+
+  <div id="app">
+    <!-- loading 套件 start -->
+    <loading :active.sync="isLoading"></loading>
+    <!-- loading 套件 end -->
+    <div class="container-fluid bg-light position-relative">
+      <nav class="navbar navbar-light justify-content-between">
+        <a class="navbar-brand" href="./index.html">產品列表</a>
+        <a href="#" class="position-relative text-dark" data-toggle="collapse" data-target="#collapseExample"
+          aria-expanded="false" aria-controls="collapseExample"><i class="fas fa-shopping-cart fa-lg"></i>
+          <span class="cart text-light bg-danger">{{cartQuantity}}</span>
+      </a>
+    </div>
+    <div class="nav">
+      <div class="collapse" id="collapseExample">
+        <div class="card card-body px-0">
+          <!-- 購物車頁面 start -->
+          <div class=" row justify-content-center">
+            <div class="col">
+              <div class="text-center">
+                <span>已選擇商品</span>
+              </div>
+              <table class="table fz-12">
+                <thead>
+                  <th>刪除</th>
+                  <th>品名</th>
+                  <th>
+                    數量
+                  </th>
+                  <th>單位</th>
+                  <th>單價</th>
+                </thead>
+                <tbody v-if="cart.length">
+                  <tr v-for="item in cart" :key="item.id">
+                    <td class="align-middle">
+                      <button type="button" class="btn btn-outline-danger btn-sm"
+                        @click="removeCartItem(item.product.id)">
+                        <i class="far fa-trash-alt"></i>
+                      </button>
+                    </td>
+                    <td class="align-middle">
+                      {{ item.product.title }}
+                    </td>
+                    <td class="align-middle">
+                      {{ item.quantity }}
+                    </td>
+                    <td class="align-middle">
+                      {{ item.product.unit }}
+                    </td>
+                    <td class="align-middle text-right">
+                      {{ item.product.price | total }}
+                    </td>
+                  </tr>
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td colspan="4" class="text-right">
+                      總計
+                    </td>
+                    <td class="text-right">
+                      {{ cartTotal | total }}
+                    </td>
+                  </tr>
+                </tfoot>
+              </table>
+              <a href="./cart.html" class="btn btn-dark w-100">前往結帳</a>
+            </div>
+          </div>
+          <!-- 購物車頁面 end -->
+
+        </div>
+      </div>
+      </nav>
+    </div>
+    <div class="container">
+      <!-- 產品列表 start -->
+      <div class="row mt-4 justify-content-center">
+        <div class="col-9 d-flex">
+          <div v-for="(item, index) in products" :key="item.id" class="col-md-4 mb-4">
+            <div class="card border-0 shadow-sm">
+              <div style="height: 150px; background-size: cover; background-position: center center;"
+                :style="{backgroundImage: `url(${item.imageUrl})`}"></div>
+              <div class="card-body">
+                <span class="badge badge-secondary float-right ml-2">{{ item.category }}</span>
+                <h5 class="card-title">
+                  <a href="#" class="text-dark">{{ item.title }}</a>
+                </h5>
+                <p class="card-text" v-html="item.content">
+                  {{ item.content }}
+                </p>
+                <div class="d-flex justify-content-between align-items-baseline">
+                  <!-- 售價(price)欄位是可選的，因此售價若為空，就顯示原價(origin_price)
+        售價若不為空，就顯示原價(origin_price)與售價(price) -->
+                  <div v-if="!item.price" class="h5">
+                    {{ item.origin_price | total }} 元
+                  </div>
+                  <div v-else>
+                    <del class="h6">原價 {{ item.origin_price | total }} 元</del>
+                    <div class="h5">
+                      現在只要 <span class="text-danger">{{ item.price | total }}</span> 元
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card-footer d-flex">
+                <button type="button" class="btn btn-outline-secondary btn-sm"
+                  :disabled="status.loadingItem === item.id" @click="getDetailed(item.id)">
+                  <i v-if="status.loadingItem === item.id" class="spinner-grow spinner-grow-sm"></i>
+                  查看更多
+                </button>
+                <button type="button" class="btn btn-outline-danger btn-sm ml-auto"
+                  :disabled="status.loadingItem === item.id" @click="addToCart(item)">
+                  <!-- <i v-if="status.loadingItem === item.id" class="spinner-grow spinner-grow-sm"></i> -->
+                  加到購物車
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 產品列表 end -->
+    <!-- 產品詳細 Modal start -->
+    <div id="productModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 id="exampleModalLabel" class="modal-title">
+              {{ tempProduct.title }}
+            </h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <img :src="tempProduct.image" class="img-fluid" alt>
+            <blockquote class="blockquote mt-3">
+              <p class="mb-0" v-html="tempProduct.content"></p>
+              <footer class="blockquote-footer text-right">
+                {{ tempProduct.description }}
+              </footer>
+            </blockquote>
+            <div class="d-flex justify-content-between align-items-baseline">
+              <div v-if="!tempProduct.price" class="h4">
+                {{ tempProduct.origin_price }} 元
+              </div>
+              <del v-if="tempProduct.price" class="h6">原價 {{ tempProduct.origin_price }} 元</del>
+              <div v-if="tempProduct.price" class="h4">
+                現在只要 {{ tempProduct.price }} 元
+              </div>
+            </div>
+            <select v-model="tempProduct.num" name class="form-control mt-3">
+              <option value="0" disabled selected>
+                請選擇數量
+              </option>
+              <option v-for="num in 10" :key="num" :value="num">
+                選購 {{ num }} {{ tempProduct.unit }}
+              </option>
+            </select>
+          </div>
+          <div class="modal-footer">
+            <div v-if="tempProduct.num" class="text-muted text-nowrap mr-3">
+              小計
+              <strong>{{ tempProduct.num * tempProduct.price }}</strong> 元
+            </div>
+            <button type="button" class="btn btn-primary" @click="addToCart(tempProduct, tempProduct.num)">
+              <i v-if="tempProduct.id === status.loadingItem" class="fas fa-spinner fa-spin"></i>
+              加到購物車
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
+    </script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+    </script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
+    </script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue-loading-overlay@3"></script>
+  <!-- https://cdnjs.com/libraries/vee-validate 注意版本，full 則包含 rules -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vee-validate/3.3.0/vee-validate.full.min.js"></script>
+
+  <!-- 注意這邊必須使用 type="module" 才能夠使用 import -->
+  <script type="module" src="all.js"></script>
+</body>
+
+</html>
