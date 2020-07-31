@@ -18,3 +18,41 @@ this.$set (target, key, value); 是為了強制觸發 setter 與 getter。
 [第五周作業](https://cinglin570.github.io/hexschool-jsClass/week5/index.html)
 
 [第六周作業](https://cinglin570.github.io/hexschool-jsClass/demo_project/dist/#/)
+
+#/ 前台模擬的
+
+## 前台頁面
+首頁 /
+
+關於我們 /about
+
+產品列表 /products
+
+  單一產品頁面 /product
+  
+購物車 /cart
+
+購物成功
+
+## 後台管理頁面
+(驗證)登入管理頁面 /login
+
+產品管理頁面 /admin/products
+
+優惠卷管理頁面 /admin/coupons
+
+訂單管理頁面
+
+### (vue頁面建立流程)
+
+1.開啟 .vue 檔案
+
+2.建立路由
+
+3.加入路徑 router-link or $router.push
+
+
+## demo_project
+
+使用的是絕對路徑，必須到vue ui設定裡更改(公開路徑)，改成  /hexschool-jsClass/demo_project/dist/
+
