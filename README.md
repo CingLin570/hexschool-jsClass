@@ -16,3 +16,5 @@ this.$set (target, key, value); 是為了強制觸發 setter 與 getter。
 [第四周作業](https://cinglin570.github.io/hexschool-jsClass/week4/Login.html)
 
 [第五周作業](https://cinglin570.github.io/hexschool-jsClass/week5/index.html)
+
+[第六周作業](https://cinglin570.github.io/hexschool-jsClass/demo_project/dist/#/)
