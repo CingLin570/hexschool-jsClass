@@ -28,7 +28,7 @@ this.$set (target, key, value); 是為了強制觸發 setter 與 getter。
 
 產品列表 /products
 
-   單一產品頁面 /product
+ -單一產品頁面 /product
   
 購物車 /cart
 
