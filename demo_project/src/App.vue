@@ -1,0 +1,58 @@
+<template>
+  <div id="app">
+    <div id="nav">
+        <loading :active.sync="isLoading"></loading>
+      <router-link to="/">Home</router-link> |
+      <router-link to="/about">About</router-link> |
+      <router-link to='/products'>產品列表</router-link> |
+      <router-link to='/cart'>購物車</router-link> |
+      <router-link to='/admin'>後台產品頁面</router-link>
+    </div>
+    <hr>
+    <router-view/>
+  </div>
+</template>
+
+<script>
+export default {
+  data () {
+    return {
+      isLoading: false
+    }
+  },
+  mounted () {
+    // this.isLoading = true
+    // setTimeout(() => {
+    //   this.isLoading = false
+    // }, 5000)
+    this.isLoading = true
+    this.$http.get(`${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/ec/products`)
+      .then((response) => {
+        this.isLoading = false
+      })
+  }
+}
+</script>
+
+<style lang="scss">
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+}
+
+#nav {
+  padding: 30px;
+
+  a {
+    font-weight: bold;
+    color: #2c3e50;
+
+    &.router-link-exact-active {
+      color: #42b983;
+    }
+  }
+}
+</style>
