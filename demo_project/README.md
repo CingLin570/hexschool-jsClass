@@ -33,6 +33,8 @@
 
 ## demo_project
 
+使用的是絕對路徑，必須到vue ui設定裡更改(公開路徑)，改成  /hexschool-jsClass/demo_project/dist/
+
 ## Project setup
 ```
 npm install
