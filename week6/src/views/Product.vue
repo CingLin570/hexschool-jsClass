@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <h2>單一產品頁面</h2>
+  <div class="pt-5">
+    <h2 class="mt-2">單一產品頁面</h2>
     <h3>{{product.title}}</h3>
     <img :src="product.imageUrl" alt="" class="img-fluid">
   </div>

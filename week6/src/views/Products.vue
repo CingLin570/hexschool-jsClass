@@ -1,6 +1,6 @@
 <template>
     <div class="pt-5">
-        <h2>這裡是產品頁</h2>
+        <h2 class="mt-2">這裡是產品頁</h2>
     <table class="table table-striped">
       <thead>
     <tr>
@@ -14,7 +14,7 @@
           <tr v-for="item in products" :key="item.id">
         <th scope="row">{{item.title}}</th>
         <td>{{item.content}}</td>
-        <td>{{item.price}}</td>
+        <td>{{item.price | total}}</td>
         <td>
           <!-- <router-link :to="`/product/${item.id}`">詳細產品資訊</router-link> -->
           <button type="button" class="btn btn-primary" @click.prevent="goPage(item)">產品資訊</button>

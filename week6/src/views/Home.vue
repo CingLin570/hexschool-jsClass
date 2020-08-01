@@ -3,7 +3,7 @@
     <div class="p-0">
       <loading :active.sync="isLoading"></loading>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark position-fixed w-100">
-  <a class="navbar-brand" href="#">Navbar</a>
+  <a class="navbar-brand font-style" href="">S protein</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -41,3 +41,9 @@ export default {
   }
 }
 </script>
+
+<style>
+  .font-style{
+    font-family: 'Lemon', cursive;
+  }
+</style>
