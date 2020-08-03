@@ -17,13 +17,13 @@
   </thead>
   <tbody>
     <tr v-for="item in cart" :key="item.product.id">
-      <th scope="row"><button type="button" class="btn btn-outline-danger btn-sm">刪除</button></th>
+      <th scope="row"><button type="button" class="btn btn-outline-danger btn-sm" @click.prevent=" removeCartItem(item.product.id)">刪除</button></th>
       <td><img :src="item.product.imageUrl" alt="" class="img-fluid" width="100px"></td>
       <td>{{item.product.title}}</td>
       <td>
         <div class="d-flex justify-content-center">
           <button type="button" class="btn btn-outline-dark btn-sm rounded-0"  @click="quantityUpdata(item.product.id, item.quantity - 1)" :disabled="item.quantity === 1"><i class="fas fa-minus"></i></button>
-        <span class="d-block px-2 border-top border-bottom border-primary border-dark">{{item.quantity}}</span>
+        <span class="d-flex align-items-center px-2 border-top border-bottom border-primary border-dark">{{item.quantity}}</span>
         <button type="button" class="btn btn-outline-dark btn-sm rounded-0" @click="quantityUpdata(item.product.id, item.quantity + 1)"><i class="fas fa-plus"></i></button>
         </div>
       </td>
@@ -84,6 +84,17 @@ export default {
         this.cartTotal = 0
         this.cartQuantity = 0
         this.getCart()
+      })
+    },
+    removeCartItem (id) {
+      const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/ec/shopping/${id}`
+      this.isLoading = true
+      this.$http.delete(url).then(() => {
+        this.cartTotal = 0
+        this.cartQuantity = 0
+        this.getCart()
+      }).catch((err) => {
+        console.log(err.data)
       })
     }
   }

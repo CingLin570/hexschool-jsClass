@@ -17,7 +17,7 @@
         <td>{{item.price | total}}</td>
         <td>
           <!-- <router-link :to="`/product/${item.id}`">詳細產品資訊</router-link> -->
-          <button type="button" class="btn btn-primary" @click.prevent="goPage(item)">產品資訊</button>
+          <button type="button" class="btn btn-dark" @click.prevent="goPage(item)">產品資訊</button>
         </td>
         </tr>
         </tbody>
