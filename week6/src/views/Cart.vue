@@ -1,5 +1,6 @@
 <template>
   <div class="pt-5">
+    <loading :active.sync="isLoading"></loading>
     <h2 class="mt-2">這裡是購物車</h2>
       <div class="card">
         <div class="card-body">
@@ -20,12 +21,24 @@
       <td><img :src="item.product.imageUrl" alt="" class="img-fluid" width="100px"></td>
       <td>{{item.product.title}}</td>
       <td>
-        <button type="button" class="btn btn-outline-dark btn-sm mr-2"><i class="fas fa-minus"></i></button>
-        {{item.quantity}}
-        <button type="button" class="btn btn-outline-dark btn-sm ml-2"><i class="fas fa-plus"></i></button>
+        <div class="d-flex justify-content-center">
+          <button type="button" class="btn btn-outline-dark btn-sm rounded-0"  @click="quantityUpdata(item.product.id, item.quantity - 1)" :disabled="item.quantity === 1"><i class="fas fa-minus"></i></button>
+        <span class="d-block px-2 border-top border-bottom border-primary border-dark">{{item.quantity}}</span>
+        <button type="button" class="btn btn-outline-dark btn-sm rounded-0" @click="quantityUpdata(item.product.id, item.quantity + 1)"><i class="fas fa-plus"></i></button>
+        </div>
       </td>
       <td>{{item.product.unit}}</td>
       <td>{{item.product.price | total}}</td>
+    </tr>
+  <tr>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td>總計</td>
+    <td class="text-center">
+      {{ cartTotal | total }}
+    </td>
     </tr>
   </tbody>
 </table>
@@ -38,7 +51,10 @@
 export default {
   data () {
     return {
-      cart: []
+      cart: [],
+      cartTotal: 0,
+      cartQuantity: 0,
+      isLoading: false
     }
   },
   created () {
@@ -46,10 +62,28 @@ export default {
   },
   methods: {
     getCart () {
+      this.isLoading = true
       const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/ec/shopping`
       this.$http.get(url).then((response) => {
-        console.log(response.data.data)
         this.cart = response.data.data
+        this.cart.forEach((item) => {
+          this.cartTotal += (item.product.price * item.quantity)
+          this.cartQuantity += item.quantity
+        })
+        this.isLoading = false
+      })
+    },
+    quantityUpdata (id, num) {
+      this.isLoading = true
+      const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/ec/shopping`
+      const data = {
+        product: id,
+        quantity: num
+      }
+      this.$http.patch(url, data).then((response) => {
+        this.cartTotal = 0
+        this.cartQuantity = 0
+        this.getCart()
       })
     }
   }
