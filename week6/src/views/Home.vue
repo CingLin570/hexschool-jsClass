@@ -9,11 +9,11 @@
   </button>
   <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
     <div class="navbar-nav">
-    <router-link to="/" class="nav-link">首頁</router-link>
-    <router-link to="/about" class="nav-link">關於我們</router-link>
-    <router-link to='/products' class="nav-link">產品列表</router-link>
-    <router-link to='/cart' class="nav-link">購物車</router-link>
-    <router-link to='/Login' class="nav-link">後台產品頁面</router-link>
+    <router-link to="/" class="nav-link h5">首頁</router-link>
+    <router-link to="/about" class="nav-link h5">關於我們</router-link>
+    <router-link to='/products' class="nav-link h5">產品列表</router-link>
+    <router-link to='/cart' class="nav-link h5">購物車</router-link>
+    <router-link to='/Login' class="nav-link h5">後台產品頁面</router-link>
     </div>
   </div>
 </nav>
