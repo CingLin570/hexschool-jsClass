@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+import Home from '../views/frontend/layout/Home.vue'
 
 Vue.use(VueRouter)
 
@@ -11,48 +11,81 @@ const routes = [
   },
   {
     path: '/',
-    name: 'Home',
+    name: '首頁',
     component: Home,
     children: [
       {
         path: '',
-        name: 'banner',
+        name: '前台選單列表',
         component: () => import('../views/Banner.vue')
       },
       {
         path: '/about',
-        name: 'About',
-        component: () => import('../views/About.vue')
+        name: '關於我們頁面',
+        component: () => import('../views/frontend/About.vue')
       },
       {
         path: '/products',
-        component: () => import('../views/Products.vue')
+        name: '前台產品列表',
+        component: () => import('../views/frontend/Products.vue')
       },
       { // 動態路由
         path: '/product/:id',
-        component: () => import('../views/Product.vue')
+        name: '前台單一產品',
+        component: () => import('../views/frontend/Product.vue')
       },
       {
         path: '/cart',
-        component: () => import('../views/Cart.vue')
+        name: '前台購物車',
+        component: () => import('../views/frontend/Cart.vue')
       }
     ]
   },
   {
     path: '/login',
+    name: '後台登入頁面',
     component: () => import('../views/Login.vue')
   },
   {
     path: '/admin',
-    component: () => import('../views/dashboard/Dashboard.vue'),
+    name: '後台首頁',
+    component: () => import('../views/backend/layout/Dashboard.vue'),
     children: [
       {
         path: 'products',
-        component: () => import('../views/dashboard/Products.vue')
+        name: '後台產品頁面',
+        component: () => import('../views/backend/Products.vue'),
+        meta: { requiresAuth: true }
       },
       {
         path: 'coupons',
-        component: () => import('../views/dashboard/Coupons.vue')
+        name: '後台優惠卷',
+        component: () => import('../views/backend/Coupons.vue'),
+        meta: { requiresAuth: true }
+      },
+      {
+        path: 'storages',
+        name: '圖片儲存庫頁面',
+        component: () => import('../views/backend/Storages.vue'),
+        meta: { requiresAuth: true }
+      },
+      {
+        path: 'detail',
+        name: '客戶訂單明細頁面',
+        component: () => import('../views/backend/Order.vue'),
+        meta: { requiresAuth: true }
+      },
+      {
+        path: 'order',
+        name: '模擬訂單頁面',
+        component: () => import('../views/backend/CustomerOrders.vue'),
+        meta: { requiresAuth: true }
+      },
+      {
+        path: 'customer_checkout/:orderId',
+        name: '用戶訂單列表',
+        component: () => import('../views/backend/CustomerCheckout.vue'),
+        meta: { requiresAuth: true }
       }
     ]
   }

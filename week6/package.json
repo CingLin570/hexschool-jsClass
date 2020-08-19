@@ -18,7 +18,8 @@
     "vue-axios": "^2.1.5",
     "vue-loading": "^0.1.4",
     "vue-loading-overlay": "^3.3.2",
-    "vue-router": "^3.2.0"
+    "vue-router": "^3.2.0",
+    "vue2-editor": "^2.10.2"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.4.0",
